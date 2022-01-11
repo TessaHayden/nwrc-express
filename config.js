@@ -1,4 +1,4 @@
 module.exports = {
-  secretKey: "12345-67890-09876-54321",
+  secretKey: "01234-45678-90123-32109",
   mongoUrl: "mongodb://localhost:27018/nwrc-express",
 };

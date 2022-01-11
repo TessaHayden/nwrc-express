@@ -8,6 +8,7 @@ const passport = require("passport");
 const session = require("express-session");
 const FileStore = require("session-file-store")(session);
 const authenticate = require("./authenticate");
+const config = require('./config');
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -55,6 +56,8 @@ app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/home", homeRouter);
+app.use("/portfolio", portfolioRouter);
 
 function auth(req, res, next) {
   console.log(req.user);
@@ -70,10 +73,8 @@ function auth(req, res, next) {
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/home", homeRouter);
-app.use("/portfolio", portfolioRouter);
 app.use("/services", servicesRouter);
-app.use("/contact", contactRouter);
+app.use("/contactus", contactRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
