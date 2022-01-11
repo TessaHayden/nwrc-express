@@ -6,3 +6,5 @@ indexRouter.route("/").all((req, res, next) => {
   res.setHeader("Content-Type", "text/plain");
   next();
 });
+
+module.exports = indexRouter;
