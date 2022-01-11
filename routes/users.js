@@ -18,36 +18,31 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  User.findOne({ username: req.body.username })
-    .then(user => {
-      if (user) {
-        const err = new Error(`User ${req.body.username} already exists!`);
-        err.status = 403;
-        return next(err);
+  User.register(
+    new User({ username: req.body.username }),
+    req.body.password,
+    (err) => {
+      if (err) {
+        res.statusCode = 500;
+        res.setHeader("Content-Type", "application/json");
+        res.json({ err: err });
       } else {
-        User.create({
-          username: req.body.username,
-          password: req.body.password
-        })
-          .then(user => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({ status: 'Registration Successful!', user: user });
-          })
-          .catch(err => next(err));
+        passport.authenticate("local")(req, res, () => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json({ success: true, status: "Registration Successful!" });
+        });
       }
-    })
-    .catch(err => next(err));
+    }
+  );
 });
-    
+
 router.post("/login", passport.authenticate("local"), (req, res) => {
-  const token = authenticate.getToken({ _id: req.user._id });
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
   res.json({
     success: true,
-    token: token,
-    status: "You are successfully logged in!",
+    status: "You are successfully logged in!"
   });
 });
 

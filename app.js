@@ -50,25 +50,21 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
 function auth(req, res, next) {
-  console.log(req.session);
+  console.log(req.user);
 
-  if (!req.session.user) {
+  if (!req.user) {
     const err = new Error("You are not authenticated!");
-    res.setHeader("WWW-Authenticate", "Basic");
     err.status = 401;
     return next(err);
   } else {
-    if (req.session.user === "authenticated") {
       return next();
-    } else {
-      const err = new Error("You are not authenticated!");
-      err.status = 401;
-      return next(err);
-    }
   }
 }
 
