@@ -14,18 +14,33 @@ portfolioRouter
       })
       .catch((err) => next(err));
   })
-  .post("/portfolio", authenticate.verifyUser, (req, res) => {
-    res.statusCode = 403;
-    res.end("POST operation not supported for /portfolio");
-  })
-  .put("/portfolio", authenticate.verifyUser, (req, res) => {
-    res.statusCode = 403;
-    res.end("PUT operation not supported for /portfolio");
-  })
-  .delete("/portfolio", authenticate.verifyUser, (req, res) => {
-    res.statusCode = 403;
-    res.end("DELETE operation not supported for /portfolio");
-  });
+  .post(
+    "/portfolio",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res) => {
+      res.statusCode = 403;
+      res.end("POST operation not supported for /portfolio");
+    }
+  )
+  .put(
+    "/portfolio",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res) => {
+      res.statusCode = 403;
+      res.end("PUT operation not supported for /portfolio");
+    }
+  )
+  .delete(
+    "/portfolio",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res) => {
+      res.statusCode = 403;
+      res.end("DELETE operation not supported for /portfolio");
+    }
+  );
 
 portfolioRouter
   .route("/:portfolioId")
@@ -33,17 +48,32 @@ portfolioRouter
     res.statusCode = 200;
     res.end("Sending /portfolio/:portfolioId item to you");
   })
-  .put("/portfolio/:portfolioId", authenticate.verifyUser, (req, res) => {
-    res.statusCode = 403;
-    res.end("PUT operation not supported for /portfolio/:portfolioId");
-  })
-  .post("/portfolio/:portfolioId", authenticate.verifyUser, (req, res) => {
-    res.statusCode = 403;
-    res.end("POST operation not supported for /portfolio/:portfolioId");
-  })
-  .delete("/portfolio/:portfolioId", authenticate.verifyUser, (req, res) => {
-    res.statusCode = 403;
-    res.end("DELETE operation not supported for /portfolio/:portfolioId");
-  });
+  .put(
+    "/portfolio/:portfolioId",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res) => {
+      res.statusCode = 403;
+      res.end("PUT operation not supported for /portfolio/:portfolioId");
+    }
+  )
+  .post(
+    "/portfolio/:portfolioId",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res) => {
+      res.statusCode = 403;
+      res.end("POST operation not supported for /portfolio/:portfolioId");
+    }
+  )
+  .delete(
+    "/portfolio/:portfolioId",
+    authenticate.verifyUser,
+    authenticate.verifyAdmin,
+    (req, res) => {
+      res.statusCode = 403;
+      res.end("DELETE operation not supported for /portfolio/:portfolioId");
+    }
+  );
 
 module.exports = portfolioRouter;

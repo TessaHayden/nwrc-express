@@ -1,14 +1,9 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
-var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const mongoose = require("mongoose");
 const passport = require("passport");
-const session = require("express-session");
-const FileStore = require("session-file-store")(session);
-const authenticate = require("./authenticate");
-const config = require('./config');
+const config = require("./config");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -16,6 +11,8 @@ const homeRouter = require("./routes/homeRouter");
 const portfolioRouter = require("./routes/portfolioRouter");
 const servicesRouter = require("./routes/servicesRouter");
 const contactRouter = require("./routes/contactRouter");
+
+const mongoose = require("mongoose");
 
 const url = config.mongoUrl;
 
@@ -33,6 +30,20 @@ connect.then(
 
 const app = express();
 
+app.all("*", (req, res, next) => {
+  if (req.secure) {
+    return next();
+  } else {
+    console.log(
+      `Redirecting to: https://${req.hostname}:${app.get("secPort")}${req.url}`
+    );
+    res.redirect(
+      301,
+      `https://${req.hostname}:${app.get("secPort")}${req.url}`
+    );
+  }
+});
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -41,35 +52,12 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(
-  session({
-    name: "session-id",
-    secret: "01234-45678-90123-32109",
-    saveUninitialized: false,
-    resave: false,
-    store: new FileStore(),
-  })
-);
-
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/home", homeRouter);
 app.use("/portfolio", portfolioRouter);
-
-function auth(req, res, next) {
-  console.log(req.user);
-
-  if (!req.user) {
-    const err = new Error("You are not authenticated!");
-    err.status = 401;
-    return next(err);
-  } else {
-      return next();
-  }
-}
 
 app.use(express.static(path.join(__dirname, "public")));
 
