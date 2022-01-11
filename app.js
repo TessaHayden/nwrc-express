@@ -11,6 +11,7 @@ const homeRouter = require("./routes/homeRouter");
 const portfolioRouter = require("./routes/portfolioRouter");
 const servicesRouter = require("./routes/servicesRouter");
 const contactRouter = require("./routes/contactRouter");
+const uploadRouter = require("./routes/uploadRouter");
 
 const mongoose = require("mongoose");
 
@@ -58,6 +59,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/home", homeRouter);
 app.use("/portfolio", portfolioRouter);
+app.use("/imageUpload", uploadRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 
