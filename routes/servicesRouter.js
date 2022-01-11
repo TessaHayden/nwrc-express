@@ -21,7 +21,7 @@ servicesRouter
     res.end("DELETE operation not supported for /services");
   });
 servicesRouter
-  .route("/services")
+  .route("/:servicesId")
   .get("/services/:serviceId", (req, res) => {
     res.statusCode = 200;
     res.end("Loading /services/:serviceId to you right now!");
