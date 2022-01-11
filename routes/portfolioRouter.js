@@ -1,11 +1,14 @@
 const express = require("express");
 const { authenticate } = require("passport");
 const Portfolio = require("../models/portfolio");
+const cors = require("./cors");
+
 const portfolioRouter = express.Router();
 
 portfolioRouter
   .route("/")
-  .get("/portfolio", (req, res, next) => {
+  .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
+  .get(cors.cors, (req, res, next) => {
     Portfolio.find()
       .then((portfolioItem) => {
         res.statusCode = 200;
@@ -15,7 +18,7 @@ portfolioRouter
       .catch((err) => next(err));
   })
   .post(
-    "/portfolio",
+    cors.corsWithOptions,
     authenticate.verifyUser,
     authenticate.verifyAdmin,
     (req, res) => {
@@ -24,7 +27,7 @@ portfolioRouter
     }
   )
   .put(
-    "/portfolio",
+    cors.corsWithOptions,
     authenticate.verifyUser,
     authenticate.verifyAdmin,
     (req, res) => {
@@ -33,7 +36,7 @@ portfolioRouter
     }
   )
   .delete(
-    "/portfolio",
+    cors.corsWithOptions,
     authenticate.verifyUser,
     authenticate.verifyAdmin,
     (req, res) => {
@@ -44,12 +47,13 @@ portfolioRouter
 
 portfolioRouter
   .route("/:portfolioId")
-  .get("/portfolio/:portfolioId", (req, res) => {
+  .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
+  .get(cors.cors, (req, res) => {
     res.statusCode = 200;
     res.end("Sending /portfolio/:portfolioId item to you");
   })
   .put(
-    "/portfolio/:portfolioId",
+    cors.corsWithOptions,
     authenticate.verifyUser,
     authenticate.verifyAdmin,
     (req, res) => {
@@ -58,7 +62,7 @@ portfolioRouter
     }
   )
   .post(
-    "/portfolio/:portfolioId",
+    cors.corsWithOptions,
     authenticate.verifyUser,
     authenticate.verifyAdmin,
     (req, res) => {
@@ -67,7 +71,7 @@ portfolioRouter
     }
   )
   .delete(
-    "/portfolio/:portfolioId",
+    cors.corsWithOptions,
     authenticate.verifyUser,
     authenticate.verifyAdmin,
     (req, res) => {
