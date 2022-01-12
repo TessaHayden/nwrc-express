@@ -15,4 +15,4 @@ const homeSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Partner", partnerSchema);
+module.exports = mongoose.model("Home", homeSchema);

@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 const portfolioSchema = new Schema({
   name: {
     type: String,
-    required: true,
-    unique: true,
+    required: true
   },
   description: {
     type: String,
@@ -18,6 +17,11 @@ const portfolioSchema = new Schema({
     type: Boolean,
     default: false,
   },
+},  
+  {
+    timestamps: true
 });
 
-module.exports = mongoose.model("Portfolio", portfolioSchema);
+const Portfolio = mongoose.model('Portfolio', portfolioSchema);
+
+module.exports = Portfolio;

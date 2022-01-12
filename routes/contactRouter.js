@@ -1,28 +1,27 @@
-const express = require("express");
-const Contact = require("../models/contact");
-const authenticate = require("../authenticate");
-const cors = require("./cors");
-
+const express = require('express');
 const contactRouter = express.Router();
 
 contactRouter
   .route("/")
-  .get((req, res) => {
+  .get((req, res, next) => {
     res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.json(input);
+    res.setHeader("Content-Type", "text/plain");
+    res.write("Sending to You!");
   })
-  .post("/contactus", authenticate.verifyUser, (req, res, next) => {
+  .post((req, res, next) => {
     res.statusCode = 200;
-    res.setHeader("content-type", "application/json");
+    res.setHeader("Content-Type", "text/plain");
+    res.write("Sending to You!");
   })
-  .put("/contatctus", authenticate.verifyUser, (req, res) => {
-    res.statusCode = 403;
-    res.setHeader("Content-Type", "application/json");
-  })
-  .delete("/contactus", authenticate.verifyUser, (req, res) => {
+  .put((req, res, next) => {
     res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "html/plain");
+    res.write("Sending to You!");
+  })
+  .delete((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "html/plain");
+    res.write("Sending to You!");
   });
 
-module.exports = contactRouter;
+    module.exports = contactRouter;

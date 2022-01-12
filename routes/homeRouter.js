@@ -8,18 +8,18 @@ homeRouter
     res.setHeader("Content-Type", "text/plain");
     next();
   })
-  .get('/home', (req, res) => {
+  .get((req, res) => {
     res.end("Loading Home Page for You!");
   })
-  .post('/home', (req, res) => {
+  .post((req, res) => {
     res.statusCode = 403;
     res.end("POST operation not supported for /home");
   })
-  .put('/home', (req, res) => {
+  .put((req, res) => {
     res.statusCode = 403;
     res.end("PUT operation not supported for /home");
   })
-  .delete('/home', (req, res) => {
+  .delete((req, res) => {
     res.statusCode = 403;
     res.end("DELETE operation not supported for /home");
   });

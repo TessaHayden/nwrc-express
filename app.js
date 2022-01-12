@@ -5,8 +5,7 @@ var logger = require("morgan");
 const passport = require("passport");
 const config = require("./config");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var router = require("./routes/users");
 const homeRouter = require("./routes/homeRouter");
 const portfolioRouter = require("./routes/portfolioRouter");
 const servicesRouter = require("./routes/servicesRouter");
@@ -55,8 +54,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/users", router);
 app.use("/home", homeRouter);
 app.use("/portfolio", portfolioRouter);
 app.use("/imageUpload", uploadRouter);
